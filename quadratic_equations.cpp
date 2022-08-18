@@ -6,7 +6,7 @@ int solveLinEq(double b, double c, double roots[]);
 int solveQuadrEq(double a, double b, double c, double roots[]);
 int isDoubleEqual(double a, double b);
 int input(double* a, double* b, double* c);
-int solve(double a, double b, double c, double roots[], int* rootsNum);
+int solve(double a, double b, double c, double roots[]);
 int output(double roots[], int rootsNum);
 
 //comparison error
@@ -19,7 +19,7 @@ int main(const int argc, const char* argv[])
     double roots[2] = {};
 
     input(&a, &b, &c);
-    solve(a, b, c, roots, &rootsNum);
+    rootsNum = solve(a, b, c, roots);
     output(roots, rootsNum);
 
     return 0;
@@ -39,34 +39,31 @@ int input(double* a, double* b, double* c)
 }
 
 //equation functions calls
-int solve(double a, double b, double c, double roots[], int* rootsNum)
+int solve(double a, double b, double c, double roots[])
 {
     //Нулевые коэфиценты.
     if (0 == isDoubleEqual(a, 0)) {
         if (0 == isDoubleEqual(b, 0)){
             if (0 == isDoubleEqual(c, 0)){
                 //Корень любой.
-                *rootsNum = -1;
-                return 0;
+                return -1;
             } else {
                 //Корней нет.
-                rootsNum = 0;
                 return 0;
             }
         } else {
             //Корень 1.
             solveLinEq(b, c, roots);
-            *rootsNum = 1;
-            return 0;
+            return 1;
         }
     }
 
     //solving the equation
     if (0 == solveQuadrEq(a, b, c, roots)) {
-        *rootsNum = 2;
+        return 2;
     } else {
         //Корни не действительны.
-        *rootsNum = -1;
+        return -1;
     }
 
     return 0;
